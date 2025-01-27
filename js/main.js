@@ -25,7 +25,7 @@ getRandomInteger(5, 8);
  * @param {number} digits - Количество знаков после запятой (по умолчанию - 0)
  * @returns {number} число с плавающей точкой из заданного диапазона
  */
-const getRundomFloat = function (min, max, digits = 0) {
+const getRundomFloat = (min, max, digits = 0) => {
   if (min < 0 || max < 0 || digits < 0) {
     return -1;
   }
