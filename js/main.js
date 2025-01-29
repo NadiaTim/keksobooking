@@ -1,8 +1,7 @@
 //Необходимое количество объявлений
 const ADVERTS_COUNT = 10;
 
-/**
- * Получение целого случайного числа в заданном диапозоне
+/** Получение целого случайного числа в заданном диапозоне
  * @param {number} min - Минимальное значение диапазона (включительно)
  * @param {number} max - Максимальное значение диапазона (включительно)
  * @returns {number} Случайное целое число
@@ -19,10 +18,7 @@ const getRandomInteger = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1))+ min;
 };
 
-getRandomInteger(5, 8);
-
-/**
- * Получение случайного числа из диапазона с несколькими занками после запятой
+/**Получение случайного числа из диапазона с несколькими занками после запятой
  * @param {number} min  - Минимальное значение диапазона (включительно)
  * @param {number} max - Максимальное значение диапазона (включительно)
  * @param {number} digits - Количество знаков после запятой (по умолчанию - 0)
@@ -39,124 +35,133 @@ const getRundomFloat = (min, max, digits = 0) => {
 
   return parseFloat((Math.random() * (max - min) + min).toFixed(digits));
 };
-getRundomFloat(4.499, 4.5, 3);
 
-//объект-справочник типов мест
+//объект-словарь типов мест
+const offerCatalog = {
+  'palace': 'замок',
+  'flat': 'квартира',
+  'house': 'дом',
+  'hotel': 'отель',
+  'bungalow': 'бунгало',
+};
 
-//объект-справочник времен заезда/выезда
+//массив-словарь вариантов времени заезда/выезда
+const timesCatalog = ['12:00','13:00','14:00'];
 
-//объект-справочник предоставляемых услуг
+//объект-словарь предоставляемых услуг
+const featuresCatalog = {
+  'wifi':'wifi',
+  'dishwasher':'посудомоечная машина',
+  'parking':'парковка',
+  'washer':'стиральная машина',
+  'elevator':'лифт',
+  'conditioner':'кондиционер',
+};
 
 
+//функция формирования массива строк с уникальными индексами
+/**
+ * Функция формирования массива строк случайной длинны с уникальными значениями, но одинаковой основной строкой
+ * @param {string} stringStart  Начальный текст строки
+ * @param {string} stringFin  Текст строки после изменяемого параметра
+ * @param {number} maxId  Максимальное значение изменяемого элемента
+ * @param {number} minId  Минимальное значение изменяемого элемента
+ * @param {number} maxArrayLength Максимально допустимая длинна массива (минимальное значение по умолчанию 1)
+ * @returns
+ */
+const getRundomSrtingArray = (stringStart, stringFin = '', maxId, minId = 0, maxArrayLength) => {
 
 
+  let arrayLength = getRandomInteger(1, maxArrayLength);
+  let stringArray = [];
+  let indexes = [];
 
-//функция уникальное двузначное число с ведущим нулем и проверкой на уникальность по другим объектам массива
-//проверку на уникальность вынести
+  while (stringArray.length < arrayLength) {
 
-//функция формирования массива случайной длинны с уникальными ссылками на картинки
-//проверку на уникальность вынести
+    let index = getRandomInteger(Math.floor(minId), Math.floor(maxId));
+    let isInArray = indexes.some(element => element==index);
+
+    if (!isInArray) {
+      stringArray.push(stringStart + index + stringFin);
+    }
+
+  }
+
+  return stringArray;
+
+};
 
 //Функция формирования массива случайной длинны с значеними их объекта-справочника (без повторов)
-
-
-//объект, описывающий автора
-const author = {
-  //уникальная ссылка на изображение
-  //{{xx}} - уникальное двузначное значение с ведущим нулем
-  avatar: 'img/avatars/user{{xx}}.png',
+const getRandomElements = (catalog) => {
+  let elements = Object.entries(catalog);
+  elements = elements.map(element => {
+    element[1] = getRandomInteger(0,1);
+    return (element[1] == 1)?element[0]:null;
+  }).filter(Boolean);
+  return elements;
 };
+
+//функция вывода случайного элемента из справочника
+const getRandomArrayElement = (catalog) => {
+  if (!Array.isArray(catalog)) {
+    catalog = Object.keys(catalog);
+  }
+  return catalog[getRandomInteger(0, catalog.length - 1)];
+};
+
 
 //функция создания объекта - автора
-const createAuthor =() => {
+const createAuthor = () => {
+  let userImgId = getRandomInteger(1,10);
+  userImgId = (userImgId < 10)?('0' + userImgId):userImgId;
   return {
-    avatar: 'img/avatars/user' + '00' + '.png',
+    avatar: 'img/avatars/user' + userImgId + '.png',
   };
-}
-
-
-//объект, содержащий информацию об объявлении
-const offer = {
-  //заголовок предложения
-  //заполнение придумать самостоятельно
-  title: '',
-
-  //адрес предложения
-  //строка с координатами x y [{{location.x}},{{location.y}}]
-  //location.x - берутся из объекта c местоположением
-  address: '',
-
-  //стоимость
-  //случайное целое положительное число
-  //используем функцию определения целого случайного числа
-  price: 1000,
-
-  //тип места
-  //одно из фиксированных значений
-  //используем объект - справочник
-  type: 'palace',
-
-  //количество комнат
-  //случайное целое положительное число
-  //используем функцию определения целого случайного числа
-  rooms: 2,
-
-  //количество гостей, которое можно разместить
-  //случайное целое положительное число
-  //используем функцию определения целого случайного числа
-  guests: 4,
-
-  //время заезда
-  //одно из фиксированных значений
-  //используем объект - справочник
-  checkin: '12:00',
-
-  //время выезда
-  //одно из фиксированных значений
-  //используем объект - справочник
-  checkout: '13:00',
-
-  //предоставляемые услуги
-  //массив случайной длинны из существующих значений
-  //используем объект - справочник
-  //массив заполняем функцией - рандомайзером
-  //значения массив без повторов
-  features: ['wifi', 'parking'],
-
-  //описание помещения
-  //придумать самостоятельно
-  description: '',
-
-  //фотографии предложения
-  //массив случайной длинны с сылками на картинки
-  photos: ['img1.jpg','img2.jpg'],
-};
-
-//объект - местоположение в виде географических координат
-const location = {
-  //широта
-  //число с плавающей точкой от 35.65000 до 35.70000
-  //вычисляем функцией для поиска часла с плавающей точкой в диапазоне
-  x: 35.7598,
-
-  //долгота
-  //число с плавающей точкой от 139.70000 до 139.80000
-  //вычисляем функцией для поиска часла с плавающей точкой в диапазоне
-  y: 139.79999,
-
 };
 
 
+//функция создания объекта - координат
+const createLocation = () => {
+  return {
+    x: getRundomFloat(35.65000, 35.70000, 5),
+    y: getRundomFloat(139.70000, 139.80000, 5),
+  }
+};
 
+//функция создания объекта - информации об объявлении
+const createOffer = function () {
+  const offer = {
+    address: '',
+    rooms: getRandomInteger(1,5),
+    checkin: getRandomArrayElement(timesCatalog),
+    checkout: getRandomArrayElement(timesCatalog),
+    price: getRandomInteger(500,100000),
+    type: getRandomArrayElement(offerCatalog),
+    features: getRandomElements(featuresCatalog),
+    photos: getRundomSrtingArray('http://o0.github.io/assets/images/tokyo/hotel', '.jpg', 55, 1, 3),
+  };
+
+  let offerType = offerCatalog[offer.type];
+  offer.guests = offer.rooms * getRandomInteger(1,3);
+  offer.title = offerType + ' c ' + offer.rooms + ' комнатами для ' + offer.guests +' гостей';
+  offer.description = 'Выгодное предложение. Рассчитано для семей, пар или компаний до '
+    + offer.guests + ' человек. В ' + offerType
+    + ' имеется ' + offer.rooms + ' комфортных комнаты.'
+    + ' Дополнительно для гостей предлагаются: '
+    + offer.features.map((feature) => featuresCatalog[feature]).join(', ');
+  return offer;
+};
 
 
 //функция создания общего объекта объявления
 const createAdvert = () => {
-  return {
-    author: {},
-    offer: {},
-    location: {},
-  }
+  const advert = {
+    author: createAuthor(),
+    offer: createOffer(),
+    location: createLocation(),
+  };
+  advert.offer.address = Object.values(advert.location).join(', ');
+  return advert
 };
 
 //Определяем пустой массив объектов-объявлений с количеством элементов заявенных в константе ADVERTS_COUNT
