@@ -1,3 +1,1 @@
-import { adverts } from './data.js';
-
-alert (adverts);
+import './card.js';

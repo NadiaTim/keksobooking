@@ -15,7 +15,7 @@ const ADVERTS_COUNT = 10;
 const Limits = {
   author: {
     min: 1,
-    max: 10,
+    max: 8,
   },
   xLocation: {
     min: 35.65000,
@@ -38,6 +38,11 @@ const Limits = {
   guests: {
     min: 1,
     max: 3,
+  },
+  photo: {
+    min: 1,//минимальный идентификатор фотографии
+    max: 3,//максимальный идентификатор фотографии
+    //count: 3,//максимальное количество в итоговой подборке
   },
 };
 
@@ -97,7 +102,7 @@ const createOffer = function () {
     price: getRundomOfLimits('price', Limits),
     type: getRandomArrayElement(offerCatalog),
     features: getRandomElements(featuresCatalog),
-    photos: getRundomSrtingArray('http://o0.github.io/assets/images/tokyo/hotel', '.jpg', 55, 1, 3),
+    photos: getRundomSrtingArray('http://o0.github.io/assets/images/tokyo/hotel', '.jpg', Limits.photo.max, Limits.photo.min, Limits.photo.count),
   };
 
   let offerType = offerCatalog[offer.type];
@@ -131,4 +136,4 @@ const adverts = new Array(ADVERTS_COUNT)
   .map(() => createAdvert());
 
 //передаем на выход из скрипта полученный массив объектов-объявлений
-export { adverts };
+export { adverts, offerCatalog };
