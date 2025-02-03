@@ -44,7 +44,14 @@ const getRundomFloat = (min, max, digits = 0) => {
  * @param {number} maxArrayLength Максимально допустимая длинна массива (минимальное значение по умолчанию 1)
  * @returns
  */
-const getRundomSrtingArray = (stringStart, stringFin = '', maxId, minId = 0, maxArrayLength) => {
+const getRundomSrtingArray = (stringStart, stringFin = '', maxId, minId = 1, maxArrayLength) => {
+  if (maxId < minId) {
+    [minId, maxId] = [maxId, minId];
+  }
+
+  if (!maxArrayLength || maxArrayLength > (maxId - minId + 1)) {
+    maxArrayLength = maxId - minId + 1;
+  }
 
   let arrayLength = getRandomInteger(0, maxArrayLength);
   let stringArray = [];
@@ -52,10 +59,12 @@ const getRundomSrtingArray = (stringStart, stringFin = '', maxId, minId = 0, max
 
   while (stringArray.length < arrayLength) {
 
-    let index = getRandomInteger(Math.floor(minId), Math.floor(maxId));
-    let isInArray = indexes.some(element => element==index);
+    let index = getRandomInteger(minId, maxId);
+    //что-то не то с проверкой
+    let isInArray = indexes.some(element => element===index);
 
     if (!isInArray) {
+      indexes.push(index);
       stringArray.push(stringStart + index + stringFin);
     }
 
