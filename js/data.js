@@ -47,13 +47,36 @@ const Limits = {
 };
 
 //объект-словарь типов мест
+// const offerCatalog_ = {
+//   'palace': 'замок',
+//   'flat': 'квартира',
+//   'house': 'дом',
+//   'hotel': 'отель',
+//   'bungalow': 'бунгало',
+// };
 const offerCatalog = {
-  'palace': 'замок',
-  'flat': 'квартира',
-  'house': 'дом',
-  'hotel': 'отель',
-  'bungalow': 'бунгало',
+  palace: {
+    inRussian: 'дворец',
+    minPrice: 10000,
+  },
+  flat: {
+    inRussian: 'квартира',
+    minPrice: 1000,
+  },
+  house: {
+    inRussian: 'дом',
+    minPrice: 5000,
+  },
+  hotel: {
+    inRussian: 'отель',
+    minPrice: 3000,
+  },
+  bungalow: {
+    inRussian: 'бунгало',
+    minPrice: 0,
+  },
 };
+
 
 //массив-словарь вариантов времени заезда/выезда
 const timesCatalog = [
@@ -105,7 +128,7 @@ const createOffer = function () {
     photos: getRundomSrtingArray('http://o0.github.io/assets/images/tokyo/hotel', '.jpg', Limits.photo.max, Limits.photo.min, Limits.photo.count),
   };
 
-  let offerType = offerCatalog[offer.type];
+  let offerType = offerCatalog[offer.type].inRussian;
   offer.guests = offer.rooms * getRundomOfLimits('guests', Limits);
   offer.title = offerType + ' c ' + offer.rooms + ' комнатами для ' + offer.guests +' гостей';
   offer.description = 'Выгодное предложение. Рассчитано для семей, пар или компаний до '

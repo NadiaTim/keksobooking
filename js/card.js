@@ -80,7 +80,7 @@ const renderCard = (advert) => {
   // тип жилья
   let offerRoomType = card.querySelector('.popup__type');
   offer.type
-    ? (offerRoomType.textContent = offerCatalog[offer.type])
+    ? (offerRoomType.textContent = offerCatalog[offer.type].inRussian)
     : offerRoomType.remove();
 
   // гости и комнаты
