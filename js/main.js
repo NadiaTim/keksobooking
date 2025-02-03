@@ -1,1 +1,1 @@
-import './similar-advert.js';
+import './card.js';
