@@ -146,4 +146,4 @@ let card = renderCard(adverts[1]);
 //отрисовать элемент в блок #map-canvas
 //advertBlock.appendChild(card);
 //передаем на выход из скрипта полученный массив объектов-объявлений
-export { card };
+export { card, renderCard };

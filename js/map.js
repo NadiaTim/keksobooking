@@ -2,6 +2,7 @@
 /* global L:readonly */
 import { abledPage } from './page-status.js';
 import { adverts } from './data.js';
+import { renderCard } from './card.js';
 
 //координаты центра токио
 const CENTER_TOKYO = {
@@ -91,7 +92,11 @@ adverts.forEach((advert) => {
   //добавляем маркер на карту и создаем его окружение
   pinMarker
     .addTo(map)
-    .bindPopup();
+    .bindPopup(
+      renderCard(advert),
+      {
+        keepInView: true,
+      });
 });
 
 
