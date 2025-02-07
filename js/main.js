@@ -1,4 +1,3 @@
 import './form.js';
-import { disabledPage } from './page-status.js';
-
-disabledPage();
+import './page-status.js';
+import './map.js';
