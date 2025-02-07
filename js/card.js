@@ -139,10 +139,11 @@ const renderCard = (advert) => {
 };
 
 
-//находим блок вставки
-const advertBlock = document.querySelector('#map-canvas');
+
 //создаем карточку
 let card = renderCard(adverts[1]);
 
 //отрисовать элемент в блок #map-canvas
-advertBlock.appendChild(card);
+//advertBlock.appendChild(card);
+//передаем на выход из скрипта полученный массив объектов-объявлений
+export { card, renderCard };
