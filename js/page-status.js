@@ -16,24 +16,24 @@ const formAddInterectives = [...formAddSelects, ...formAddFieldsets];
 //функция придания странице неактивного состояния
 const disabledPage = () => {
   //на месте карты отображается серый прямоугольник
-  document.querySelector('#map-canvas').innerHTML='';
+  //document.querySelector('#map-canvas').innerHTML='';
 
   //форма с фильтрами заблокирована
   formFilter.classList.add('map__filters--disabled');
   //ее интеракивные элементы заблокированы с помощью атрибута disabled
   formFilterInterectives.forEach(element => {
-    element.disabled='true';
+    element.disabled = true;
   })
 
   //форма заполнения информации об объявлении заблокирована
   formAdd.classList.add('ad-form--disabled');
   //ее интеракивные элементы заблокированы с помощью атрибута disabled (на них или на fieldset)
   formAddInterectives.forEach(element => {
-    element.disabled='true';
+    element.disabled = true;
   })
 };
 
-//disabledPage();
+disabledPage();
 
 
 //функция придания странице активного состояния
@@ -43,14 +43,14 @@ const abledPage = () => {
   formFilter.classList.remove('map__filters--disabled');
   //ее интеракивные элементы разблокированы
   formFilterInterectives.forEach(element => {
-    element.disabled='false';
+    element.disabled = false;
   });
 
   //форма заполнения информации об объявлении разблокирована
   formAdd.classList.remove('ad-form--disabled');
   //ее интеракивные элементы разблокированы
   formAddInterectives.forEach(element => {
-    element.disabled='false';
+    element.disabled = false;
   });
 };
 
