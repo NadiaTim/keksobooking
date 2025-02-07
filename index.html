@@ -188,6 +188,8 @@
               type="text"
               placeholder="Милая, уютная квартирка в центре Токио"
               required
+              minlength="30"
+              maxlength="100"
             />
           </fieldset>
           <fieldset class="ad-form__element ad-form__element--wide">
@@ -207,6 +209,7 @@
             <select id="type" name="type">
               <option value="bungalow">Бунгало</option>
               <option value="flat" selected>Квартира</option>
+              <option value="hotel">Отель</option>
               <option value="house">Дом</option>
               <option value="palace">Дворец</option>
             </select>
@@ -218,6 +221,7 @@
               name="price"
               type="number"
               placeholder="5000"
+              step="100"
               required
             />
           </fieldset>
@@ -336,7 +340,6 @@
               id="description"
               name="description"
               placeholder="Здесь расскажите о том, какое ваше жилье замечательное и вообще"
-              required
             ></textarea>
           </fieldset>
           <fieldset class="ad-form__element ad-form__element--wide">
