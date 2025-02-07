@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-redeclare
 /* global L:readonly */
 import { abledPage } from './page-status.js';
+import { adverts } from './data.js';
 
 //координаты центра токио
 const CENTER_TOKYO = {
@@ -16,11 +17,13 @@ const CENTER_TOKYO = {
  */
 const latLngObjToString = (latLng) => {
   let lat = latLng.lat ? latLng.lat
-    : latLng.latitude ? latLng.latitude : null;
+    : latLng.latitude ? latLng.latitude
+      : latLng.x ? latLng.x : null;
   lat = (latLng.lat).toFixed(5);
 
   let lng = latLng.lng ? latLng.lng
-    : latLng.longitude ? latLng.longitude : null;
+    : latLng.longitude ? latLng.longitude
+      : latLng.y ? latLng.y : null;
   lng = (latLng.lng).toFixed(5);
 
   return `${lat}, ${lng}`;
@@ -65,3 +68,30 @@ mainPinMarker
     let marker = evt.target.getLatLng();
     document.querySelector('#address').value = latLngObjToString(marker);
   } )
+
+
+;
+
+adverts.forEach((advert) => {
+  //задаем вид маркера похожего объявления
+  const pinIcon = L.icon({
+    iconUrl: '../leaflet/img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  })
+
+  //создаем элемент маркера похожего объявления
+  const pinMarker = L.marker(
+    advert.location,
+    {
+      draggable: false,
+      icon: pinIcon,
+    },
+  );
+  //добавляем маркер на карту и создаем его окружение
+  pinMarker
+    .addTo(map)
+    .bindPopup();
+});
+
+

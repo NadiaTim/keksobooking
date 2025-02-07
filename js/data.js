@@ -110,8 +110,8 @@ const createAuthor = () => {
 //функция создания объекта - координат
 const createLocation = () => {
   return {
-    x: getRundomOfLimits('xLocation', Limits),
-    y: getRundomOfLimits('yLocation', Limits),
+    lat: getRundomOfLimits('xLocation', Limits),
+    lng: getRundomOfLimits('yLocation', Limits),
   }
 };
 
