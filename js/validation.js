@@ -60,7 +60,7 @@ priceInput.addEventListener('blur', priceValidate);
 // «Дворец» — минимальная цена 10 000.
 
 //добавляем обработчик на изменение типа жилья
-typeInput.addEventListener('change', function () {
+typeInput.addEventListener('change', () => {
   priceInput.placeholder = offerCatalog[typeInput.value].minPrice ;
   priceValidate();
 });
@@ -77,15 +77,55 @@ const checkInInput = document.querySelector('#timein');
 const checkOutInput = document.querySelector('#timeout');
 
 //обработчик на изменение времени выезда, при корректировке времени заезда
-checkInInput.addEventListener('change', function () {
+checkInInput.addEventListener('change', () => {
   checkOutInput.value = checkInInput.value;
 });
 
 //обработчик на изменение времени заезда, при корректировке времени выезда
-checkOutInput.addEventListener('change', function () {
+checkOutInput.addEventListener('change', () => {
   checkInInput.value = checkOutInput.value;
 });
 
+// 3.6. Поле «Количество комнат» синхронизировано с полем «Количество мест» таким образом, что при выборе количества комнат вводятся ограничения на допустимые варианты выбора количества гостей:
+// 1 комната — «для 1 гостя»;
+// 2 комнаты — «для 2 гостей» или «для 1 гостя»;
+// 3 комнаты — «для 3 гостей», «для 2 гостей» или «для 1 гостя»;
+// 100 комнат — «не для гостей».
+const roomsInput = document.querySelector('#room_number');
+const capacityInput = document.querySelector('#capacity');
 
+
+const capacityValidation = () => {
+  let maxValue = roomsInput.value;
+  const capacityInputOptions = capacityInput.querySelectorAll('option');
+  capacityInputOptions.forEach((item) => {
+
+    item.disabled = true;
+    item.selected = false;
+
+    if (item.value <= maxValue
+        & Number(item.value) !== 0
+        & maxValue != 100 ) {
+
+      item.disabled = false;
+
+      if (item.value == maxValue) {
+        item.selected = true;
+      }
+    }
+
+    if (item.value == 0
+        & maxValue == 100 ) {
+
+      item.disabled = false;
+      item.selected = true;
+
+    }
+  });
+};
+
+capacityValidation();
+
+roomsInput.addEventListener('change', capacityValidation);
 
 
