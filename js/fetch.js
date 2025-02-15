@@ -8,7 +8,6 @@
 //
 // и отправки данных
 //https://23.javascript.htmlacademy.pro/keksobooking (post)
-
 const SERVER = 'https://23.javascript.htmlacademy.pro/keksobooking';
 const DATA = 'https://23.javascript.htmlacademy.pro/keksobooking/data';
 
@@ -23,20 +22,22 @@ const getData = (onSuccess, onFail) => {
     });
 };
 
-const sendData = (onSuccess, onFail) => {
+const sendData = (onSuccess, onFail, body) => {
   fetch(
-    SERVER, {
+    SERVER,
+    {
       method: 'POST',
+      body: body,
     })
     .then((response) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onFail('Не удалось отправить форму. Попробуйте еще раз');
+        onFail();
       }
     })
     .catch(() => {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз.');
+      onFail();
     });
 };
 
