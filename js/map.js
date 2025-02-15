@@ -1,16 +1,17 @@
 // eslint-disable-next-line no-redeclare
 /* global L:readonly */
 import { abledPage } from './page-status.js';
-import { adverts } from './data.js';
 import { renderCard } from './card.js';
+import { getData } from './fetch.js';
+import { showAlertError } from './util-element.js';
 
 //координаты центра токио
 const CENTER_TOKYO = {
-  lat: 35.6895000,
-  lng: 139.6917100,
+  lat: 35.68365,
+  lng: 139.75073,
 };
 
-//функция преобразования координат в строку
+
 /**
  * Преобразовывает объект с координатами в строку
  * @param {object} latLng Объект, содержащий информацию о широте и долготе
@@ -36,7 +37,7 @@ const map = L.map('map-canvas')
     abledPage();
     document.querySelector('#address').value = latLngObjToString(CENTER_TOKYO);
   })
-  .setView(CENTER_TOKYO, 10);
+  .setView(CENTER_TOKYO, 13);
 
 
 //подключаем слой карт openstreetmap в карту
@@ -68,35 +69,36 @@ mainPinMarker
   .on('moveend', (evt) => {
     let marker = evt.target.getLatLng();
     document.querySelector('#address').value = latLngObjToString(marker);
-  } )
+  } );
 
+const addPinMarker = (adverts) => {
+  adverts.forEach((advert) => {
+    //задаем вид маркера похожего объявления
+    const pinIcon = L.icon({
+      iconUrl: '../leaflet/img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    })
 
-;
-
-adverts.forEach((advert) => {
-  //задаем вид маркера похожего объявления
-  const pinIcon = L.icon({
-    iconUrl: '../leaflet/img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  })
-
-  //создаем элемент маркера похожего объявления
-  const pinMarker = L.marker(
-    advert.location,
-    {
-      draggable: false,
-      icon: pinIcon,
-    },
-  );
-  //добавляем маркер на карту и создаем его окружение
-  pinMarker
-    .addTo(map)
-    .bindPopup(
-      renderCard(advert),
+    //создаем элемент маркера похожего объявления
+    const pinMarker = L.marker(
+      advert.location,
       {
-        keepInView: true,
-      });
-});
+        draggable: false,
+        icon: pinIcon,
+      },
+    );
+    //добавляем маркер на карту и создаем его окружение
+    pinMarker
+      .addTo(map)
+      .bindPopup(
+        renderCard(advert),
+        {
+          keepInView: true,
+        });
+  });
+};
+
+getData( addPinMarker, showAlertError );
 
 
