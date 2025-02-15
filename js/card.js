@@ -1,10 +1,6 @@
 
 //модуль отчечающий за генерацию разметки похожих элементов
-import { adverts, offerCatalog } from './data.js';
-
-//выбираем отображаемое объявление из созданного массива объявлений
-//const advert = adverts[1];
-//const offer = advert.offer;
+import { MIN_PRICE_OF_TYPE } from './data.js';
 
 
 //шаблон карточки
@@ -80,7 +76,7 @@ const renderCard = (advert) => {
   // тип жилья
   let offerRoomType = card.querySelector('.popup__type');
   offer.type
-    ? (offerRoomType.textContent = offerCatalog[offer.type].inRussian)
+    ? (offerRoomType.textContent = MIN_PRICE_OF_TYPE[offer.type].inRussian)
     : offerRoomType.remove();
 
   // гости и комнаты
@@ -141,9 +137,9 @@ const renderCard = (advert) => {
 
 
 //создаем карточку
-let card = renderCard(adverts[1]);
+//let card = renderCard(adverts[1]);
 
 //отрисовать элемент в блок #map-canvas
 //advertBlock.appendChild(card);
 //передаем на выход из скрипта полученный массив объектов-объявлений
-export { card, renderCard };
+export { renderCard };

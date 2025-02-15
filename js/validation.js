@@ -1,4 +1,4 @@
-import { offerCatalog } from './data.js';
+import { MIN_PRICE_OF_TYPE } from './data.js';
 
 // 3.1. Заголовок объявления:
 // Обязательное текстовое поле;
@@ -34,6 +34,7 @@ const priceInput = document.querySelector('#price');
 const typeInput = document.querySelector('#type');
 
 const priceValidate = () => {
+
   const priceValue = Number(priceInput.value);
   const priceMin = Number(priceInput.placeholder);
 
@@ -59,9 +60,10 @@ priceInput.addEventListener('blur', priceValidate);
 // «Дом» — минимальная цена 5 000;
 // «Дворец» — минимальная цена 10 000.
 
+
 //добавляем обработчик на изменение типа жилья
 typeInput.addEventListener('change', () => {
-  priceInput.placeholder = offerCatalog[typeInput.value].minPrice ;
+  priceInput.placeholder = MIN_PRICE_OF_TYPE[typeInput.value].minPrice ;
   priceValidate();
 });
 
