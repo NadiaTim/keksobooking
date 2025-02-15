@@ -21,4 +21,12 @@ const showAlertError = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {showAlertError};
+
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
+export {
+  showAlertError,
+  isEscEvent
+};

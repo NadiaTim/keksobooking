@@ -102,3 +102,9 @@ const addPinMarker = (adverts) => {
 getData( addPinMarker, showAlertError );
 
 
+export {
+  CENTER_TOKYO,
+  map,
+  mainPinMarker,
+  latLngObjToString
+};
