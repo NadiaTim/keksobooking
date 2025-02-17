@@ -1,20 +1,21 @@
 // eslint-disable-next-line no-redeclare
 /* global L:readonly */
-import { abledPage } from './page-status.js';
+import { abledFilterForm, abledAddForm } from './page-status.js';
 import { renderCard } from './card.js';
 import { getData } from './fetch.js';
 import { showAlertError } from './util-element.js';
 import { compareAdverts, onFilterChange } from './filter-form.js';
+import { debounce } from './util.js';
 
 
 const MAX_ADVERTS_COUNT = 10;
+const RERENDER_DELAY = 500;
 
 //координаты центра токио
 const CENTER_TOKYO = {
   lat: 35.68365,
   lng: 139.75073,
 };
-
 
 /**
  * Преобразовывает объект с координатами в строку
@@ -38,7 +39,7 @@ const latLngObjToString = (latLng) => {
 //создаем карту
 const map = L.map('map-canvas')
   .on('load', () => {
-    abledPage();
+    abledAddForm();
     document.querySelector('#address').value = latLngObjToString(CENTER_TOKYO);
   })
   .setView(CENTER_TOKYO, 13);
@@ -120,11 +121,12 @@ const removePinMarker = () => {
 
 getData((adverts) => {
   addPinMarker(adverts),
-  onFilterChange(() => {
+  abledFilterForm(),
+  onFilterChange(debounce(() => {
     removePinMarker();
-    addPinMarker(adverts);
-  })
-}, showAlertError );
+    addPinMarker(adverts)
+  }, RERENDER_DELAY))
+}, showAlertError)
 
 
 export {

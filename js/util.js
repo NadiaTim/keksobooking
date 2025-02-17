@@ -35,7 +35,28 @@ const getRundomFloat = (min, max, digits = 0) => {
   return parseFloat((Math.random() * (max - min) + min).toFixed(digits));
 };
 
+/**
+ * Возвращает функцию, которая,
+ * пока она продолжает вызываться,
+ * не будет запускаться.
+ * Вызов происходи после заданного времени бездействия
+ * @param {Function} cb задерживаемая функция
+ * @param {*} delay время задержки в мс
+ * @returns
+ */
+const debounce = (cb,
+  delay) => {
+  let timeoutId;
+  return (...arg) => {
+    //отменяем предыдущую отсрочку
+    clearTimeout(timeoutId);
+    //назначаем новую отсрочку
+    timeoutId = setTimeout(() => cb.apply(this, arg), delay);
+  };
+};
+
 export {
   getRandomInteger,
-  getRundomFloat
+  getRundomFloat,
+  debounce
 };
