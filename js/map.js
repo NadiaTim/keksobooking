@@ -4,6 +4,10 @@ import { abledPage } from './page-status.js';
 import { renderCard } from './card.js';
 import { getData } from './fetch.js';
 import { showAlertError } from './util-element.js';
+import { compareAdverts, onFilterChange } from './filter-form.js';
+
+
+const MAX_ADVERTS_COUNT = 10;
 
 //координаты центра токио
 const CENTER_TOKYO = {
@@ -63,7 +67,7 @@ const mainPinMarker = L.marker(
     icon: mainPinIcon,
   },
 );
-//добавляем маркер на карту и назначаем ему события
+//добавляем главный маркер на карту и назначаем ему события
 mainPinMarker
   .addTo(map)
   .on('moveend', (evt) => {
@@ -71,35 +75,56 @@ mainPinMarker
     document.querySelector('#address').value = latLngObjToString(marker);
   } );
 
-const addPinMarker = (adverts) => {
-  adverts.forEach((advert) => {
-    //задаем вид маркера похожего объявления
-    const pinIcon = L.icon({
-      iconUrl: '../leaflet/img/pin.svg',
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
-    })
 
-    //создаем элемент маркера похожего объявления
-    const pinMarker = L.marker(
-      advert.location,
-      {
-        draggable: false,
-        icon: pinIcon,
-      },
-    );
-    //добавляем маркер на карту и создаем его окружение
-    pinMarker
-      .addTo(map)
-      .bindPopup(
-        renderCard(advert),
+//элемент маркера объявлений
+
+
+
+const markers =[];
+const addPinMarker = (adverts) => {
+  adverts
+    .slice()
+    .filter(compareAdverts)//заменить на удаление лишних значений
+    .slice(0, MAX_ADVERTS_COUNT)
+    .forEach((advert) => {
+      //задаем вид маркера похожего объявления
+      const pinIcon = L.icon({
+        iconUrl: '../leaflet/img/pin.svg',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+      });
+      //создаем элемент маркера похожего объявления
+      const pinMarker = L.marker(
+        advert.location,
         {
-          keepInView: true,
-        });
-  });
+          draggable: false,
+          icon: pinIcon,
+        },
+      );
+      //добавляем маркер на карту и создаем его окружение
+      pinMarker
+        .addTo(map)
+        .bindPopup(
+          renderCard(advert),
+          {
+            keepInView: true,
+          });
+      markers.push(pinMarker);
+    });
 };
 
-getData( addPinMarker, showAlertError );
+const removePinMarker = () => {
+  markers.forEach(marker => marker.remove());
+};
+
+
+getData((adverts) => {
+  addPinMarker(adverts),
+  onFilterChange(() => {
+    removePinMarker();
+    addPinMarker(adverts);
+  })
+}, showAlertError );
 
 
 export {
