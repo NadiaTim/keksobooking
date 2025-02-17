@@ -35,17 +35,16 @@ const disabledPage = () => {
 
 disabledPage();
 
-
-//функция придания странице активного состояния
-const abledPage = () => {
-
+const abledFilterForm = () => {
   //форма с фильтрами разблокирована
   formFilter.classList.remove('map__filters--disabled');
   //ее интеракивные элементы разблокированы
   formFilterInterectives.forEach(element => {
     element.disabled = false;
   });
+};
 
+const abledAddForm = () => {
   //форма заполнения информации об объявлении разблокирована
   formAdd.classList.remove('ad-form--disabled');
   //ее интеракивные элементы разблокированы
@@ -54,6 +53,4 @@ const abledPage = () => {
   });
 };
 
-//abledPage();
-
-export { disabledPage, abledPage };
+export { disabledPage, abledFilterForm, abledAddForm };
